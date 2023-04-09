@@ -1,0 +1,4 @@
+List of all available commands:
+
+help - see all commands
+exit - finish working with app
