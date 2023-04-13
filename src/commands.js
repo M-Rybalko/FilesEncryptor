@@ -1,7 +1,9 @@
 'use strict';
 
-const readline = require('readline');
+const readline = require('node:readline/promises');
 const fs = require('fs');
+const morse = require('./ciphers/morse.js');
+const caesar = require('./ciphers/caesar.js');
 
 console.clear();
 const rl = readline.createInterface({
@@ -17,9 +19,22 @@ const commands = {
     const commandList = fs.readFileSync('./docs/commandList.txt', 'utf-8');
     console.log(commandList);
   },
+
   exit() {
     rl.close();
+  },
+
+  async encrypt() {
+    const answer = await rl.question('Which file do you want to encrypt? ');
+    const file = './' + answer;
+    const cipher = await rl.question('Which cipher do you want to use? ');
+    if (cipher === 'morse') morse.encryptByMorse(file);
+    if (cipher === 'caesar') {
+      const step = await rl.question('How many hops do you need? ');
+      caesar.encryptByCaesar(file, step);
+    }
   }
+
 };
 
 rl.on('line', (line) => {
