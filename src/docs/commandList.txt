@@ -2,3 +2,4 @@ List of all available commands:
 
 help - see all commands
 exit - finish working with app
+encrypt - encrypt selected file with a cipher
