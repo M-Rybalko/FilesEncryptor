@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const readline = require('node:readline/promises');
 
 const rl = readline.createInterface({
@@ -20,8 +21,22 @@ const createCipher = async () => {
     if (stop === 'y') repeat = false;
     if (stop === 'n') repeat = true;
   }
-  console.log(cipher);
   rl.close();
+  return cipher;
 };
 
-module.exports = { createCipher };
+const encryptByCustom = (file, cipher) => {
+  const data = fs.readFileSync(file, 'utf-8');
+  let encrypted = data;
+  if (data === '') {
+    console.log('File is empty. Try choosing another file');
+    rl.close();
+    return;
+  }
+  for (const key of Object.keys(cipher)) {
+    encrypted = encrypted.replaceAll(key, cipher[key]);
+  }
+  fs.writeFileSync('encrypted.txt', encrypted);
+};
+
+module.exports = { createCipher, encryptByCustom };
