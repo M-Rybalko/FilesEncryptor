@@ -1,7 +1,7 @@
 'use strict';
 
 const readline = require('node:readline/promises');
-const fs = require('fs');
+const fs = require('node:fs');
 const morse = require('./ciphers/morse.js');
 const caesar = require('./ciphers/caesar.js');
 
@@ -33,7 +33,13 @@ const commands = {
       const step = await rl.question('How many hops do you need? ');
       caesar.encryptByCaesar(file, step);
     }
-  }
+  },
+
+  async create() {
+    console.log(`Welcome to cipher creating! 
+      Here you can create, customise and save any ciphers!
+      Type cipherHelp to see all commands:`);
+  },
 
 };
 

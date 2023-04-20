@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 const encryptByCaesar = (file, step = 1) => {
   const data = (fs.readFileSync(file, 'utf-8')).split('');

@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 class CustomCipher {
 
@@ -78,6 +78,21 @@ class CustomCipher {
     }
 
     console.log('List of ommited characters: ' + ommitedChars.join(', '));
+  }
+
+  saveToJSON(cipherName, fileName) {
+
+    if (cipherName !== this.name) {
+      console.log('The cipher with this name doesnt exist.');
+      return;
+    }
+
+    if (Object.keys(this.cipher).length === 0) {
+      console.log('The cipher with this name was deleted.');
+      return;
+    }
+
+
   }
 
   encryptByCustom(file, cipher) {
