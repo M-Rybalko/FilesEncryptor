@@ -10,7 +10,7 @@ class CustomCipher {
     this.omit = this.cipher.omit;
   }
 
-  AddToCipher(string, replacer) {
+  addToCipher(string, replacer) {
 
     if (string === '') {
       console.log(
