@@ -38,6 +38,19 @@ class CustomCipher {
     return this.cipher;
   }
 
+  deleteFromCipher(string) {
+    string = string.trim();
+    if (string === 'omit') {
+      console.log('You cant delete that');
+      return;
+    }
+
+    if (Object.keys(this.cipher).includes(string)) {
+      delete this.cipher[string];
+      return this.cipher;
+    }
+  }
+
   omitChar(char) {
 
     if (char === '') {
