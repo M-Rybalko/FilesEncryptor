@@ -19,6 +19,13 @@ class CustomCipher {
       return;
     }
 
+    if (string === 'omit') {
+      console.log(
+        'You cant cipher that string. Unspeakable things could happen'
+      );
+      return;
+    }
+
     if (replacer === '') {
       console.log(
         'Replacer cant be empty. You risk to lose data that way.'
