@@ -6,7 +6,7 @@ class CustomCipher {
 
   constructor(name) {
     this.name = name;
-    this.cipher = { omit: [] };
+    this.cipher = { omit: new Set() };
     this.omit = this.cipher.omit;
   }
 
@@ -59,8 +59,25 @@ class CustomCipher {
       return;
     }
 
-    this.omit.push(char);
+    this.omit.add(char);
     return this.cipher;
+  }
+
+  deomit(char) {
+    char = char.trim();
+
+    if (this.omit.has(char)) {
+      this.omit.delete(char);
+
+      if (!this.omit.has(char)) {
+        console.log(char + ' will not be omited since now');
+      }
+
+      return this.omit;
+    }
+
+    console.log('This character is not in omit list');
+    return;
   }
 
   deleteCipher(name) {
@@ -138,5 +155,17 @@ class CustomCipher {
     fs.writeFileSync('encrypted.txt', encrypted);
   }
 }
+
+const cs = new CustomCipher('test');
+
+cs.addToCipher('abab', 'baba');
+cs.addToCipher('c', 'l');
+cs.addToCipher('brrr', 'hi!');
+cs.omitChar('{');
+cs.omitChar('}');
+cs.showCipher('test');
+cs.deomit('{');
+cs.deomit(')');
+cs.showCipher('test');
 
 module.exports = { CustomCipher };
