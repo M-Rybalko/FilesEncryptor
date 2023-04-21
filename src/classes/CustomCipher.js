@@ -38,7 +38,7 @@ class CustomCipher {
     return this.cipher;
   }
 
-  deleteFromCipher(string) {
+  deleteElement(string) {
     string = string.trim();
     if (string === 'omit') {
       console.log('You cant delete that');
@@ -47,6 +47,7 @@ class CustomCipher {
 
     if (Object.keys(this.cipher).includes(string)) {
       delete this.cipher[string];
+      if (!this.cipher[string]) console.log('Deleted successfuly!');
       return this.cipher;
     }
   }
