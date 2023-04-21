@@ -156,16 +156,4 @@ class CustomCipher {
   }
 }
 
-const cs = new CustomCipher('test');
-
-cs.addToCipher('abab', 'baba');
-cs.addToCipher('c', 'l');
-cs.addToCipher('brrr', 'hi!');
-cs.omitChar('{');
-cs.omitChar('}');
-cs.showCipher('test');
-cs.deomit('{');
-cs.deomit(')');
-cs.showCipher('test');
-
 module.exports = { CustomCipher };
