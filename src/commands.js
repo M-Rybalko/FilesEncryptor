@@ -12,6 +12,7 @@ const rl = readline.createInterface({
   prompt: '> ',
 });
 
+let level = 'general';
 rl.prompt();
 
 const commands = {
@@ -37,27 +38,29 @@ const commands = {
         caesar.encryptByCaesar(file, step);
       }
     },
+
+    create() {
+      level = 'custom';
+      console.log(`Welcome to cipher creating! 
+Here you can create, customise and save your ciphers!
+Type help to see all commands.`);
+    }
   },
 
   custom: {
 
-    create() {
-      console.log(`Welcome to cipher creating! 
-        Here you can create, customise and save any ciphers!
-        Type cipherHelp to see all commands:`);
-    },
   }
 
 };
 
 rl.on('line', (line) => {
-  line = line.trim();
-  const [tier, name] = line.split(' ');
-  const level = commands[tier];
-  if (level) {
-    const command = level[name];
+  line = line.toLowerCase().trim();
+
+  const tier = commands[level];
+  if (tier) {
+    const command = tier[line];
     if (command) command();
     else console.log('Unknown command. Type "help" to see available commands');
-  } else console.log('This level does not exist');
+  } else console.log('This tier does not exist');
   rl.prompt();
 }).on('close', () => process.exit(0));
