@@ -10,16 +10,16 @@ class CustomCipher {
     this.omit = this.cipher.omit;
   }
 
-  addToCipher(string, replacer) {
+  addToCipher(str, replacer) {
 
-    if (string === '') {
+    if (str === '') {
       console.log(
         'This string cant be empty. You risk to lose data that way.'
       );
       return;
     }
 
-    if (string === 'omit') {
+    if (str === 'omit') {
       console.log(
         'You cant cipher that string. Unspeakable things could happen'
       );
@@ -33,12 +33,12 @@ class CustomCipher {
       return;
     }
 
-    this.cipher[string] = replacer;
-    if (this.cipher[string]) console.log('Added successfully!');
+    this.cipher[str] = replacer;
+    if (this.cipher[str]) console.log('Added successfully!');
     return this.cipher;
   }
 
-  deleteElement(string) {
+  deleteReplacer(string) {
     string = string.trim();
     if (string === 'omit') {
       console.log('You cant delete that');
@@ -63,7 +63,7 @@ class CustomCipher {
     return this.cipher;
   }
 
-  deomit(char) {
+  deomit(char) { // Change name
     char = char.trim();
 
     if (this.omit.has(char)) {
@@ -84,7 +84,7 @@ class CustomCipher {
     if (name === this.name) this.cipher = {};
   }
 
-  showCipher(name) {
+  showCipher(name) { // Remake to errors
 
     if (name !== this.name) {
       console.log('The cipher with this name doesnt exist.');
