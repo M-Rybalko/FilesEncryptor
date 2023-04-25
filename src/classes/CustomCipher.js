@@ -8,6 +8,7 @@ class CustomCipher {
     this.name = name;
     this.cipher = { omit: new Set() };
     this.omit = this.cipher.omit;
+    this.saved = false;
   }
 
   addToCipher(str, replacer) {
@@ -136,6 +137,10 @@ class CustomCipher {
 
     if (!fs.existsSync(FOLDER)) fs.mkdirSync(FOLDER);
     fs.writeFileSync(file, data);
+    if (fs.existsSync(file)) {
+      this.saved = true;
+      console.log('Saved successfuly!');
+    }
   }
 
   encryptByCustom(file, cipher) {
