@@ -4,6 +4,7 @@ const readline = require('node:readline/promises');
 const fs = require('node:fs');
 const morse = require('./ciphers/morse.js');
 const caesar = require('./ciphers/caesar.js');
+const { CustomCipher } = require('./classes/CustomCipher.js');
 
 console.clear();
 const rl = readline.createInterface({
@@ -12,8 +13,9 @@ const rl = readline.createInterface({
   prompt: '> ',
 });
 
-let level = 'general';
 rl.prompt();
+let level = 'general';
+let customCipher = new CustomCipher();
 
 const commands = {
 
@@ -48,19 +50,20 @@ Type help to see all commands.`);
   },
 
   custom: {
-
+    async new() {
+      const name = await rl.question('Enter the name of the cipher: ');
+      customCipher = new CustomCipher(name);
+      return customCipher;
+    }
   }
 
 };
 
 rl.on('line', (line) => {
   line = line.toLowerCase().trim();
-
   const tier = commands[level];
-  if (tier) {
-    const command = tier[line];
-    if (command) command();
-    else console.log('Unknown command. Type "help" to see available commands');
-  } else console.log('This tier does not exist');
+  const command = tier[line];
+  if (command) command();
+  else console.log('Unknown command. Type "help" to see available commands');
   rl.prompt();
 }).on('close', () => process.exit(0));
