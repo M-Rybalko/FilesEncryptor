@@ -89,6 +89,31 @@ const commands = {
       rl.prompt();
     },
 
+    delete(key) {
+
+      const switches = {
+        '-e': async () => {
+          const str = await rl.question('Enter element you want to delete: ');
+          customCipher.deleteReplacer(str);
+        },
+        '-o': async () => {
+          const char = await rl.question('Enter char you dont want to omit: ');
+          customCipher.deomit(char);
+        },
+        '-c': async () => {
+          const name = await rl.question('Enter the name of the cipher: ');
+          customCipher.deleteCipher(name);
+        },
+      };
+
+      if (Object.keys(switches).includes(key)) {
+        switches[key]();
+        rl.prompt();
+        return;
+      }
+      console.log('This switch doesnt exist. Use "help" for guidance');
+    },
+
     async exit() {
       if (customCipher.saved === true) {
         rl.close();
@@ -105,9 +130,11 @@ const commands = {
 };
 
 rl.on('line', (line) => {
-  line = line.toLowerCase().trim();
+  const [ name, sw ] = line.toLowerCase().trim().split(' ');
   const tier = commands[level];
-  const command = tier[line];
-  if (command) command();
-  else console.log('Unknown command. Type "help" to see available commands');
+  const command = tier[name];
+  if (command) {
+    if (sw) command(sw);
+    else command();
+  } else console.log('Unknown command. Type "help" to see available commands');
 }).on('close', () => process.exit(0));
