@@ -15,7 +15,7 @@ const rl = readline.createInterface({
 
 rl.prompt();
 let level = 'general';
-let customCipher = new CustomCipher();
+let customCipher;
 
 const commands = {
 
@@ -54,6 +54,42 @@ Type help to see all commands.`);
       const name = await rl.question('Enter the name of the cipher: ');
       customCipher = new CustomCipher(name);
       return customCipher;
+    },
+
+    async add() {
+      const str = await rl.question('Enter the string you want to replace: ');
+      const replacer = await rl.question('Enter the replacer: ');
+      customCipher.addToCipher(str, replacer);
+      return customCipher;
+    },
+
+    async omit() {
+      const char = await rl.question('Enter string you need to omit: ');
+      customCipher.omitChar(char);
+      return customCipher;
+    },
+
+    async save() {
+      const name = await rl.question('Enter the name of the cipher: ');
+      const file = await rl.question('Enter the file name: ');
+      customCipher.saveToJSON(name, file);
+    },
+
+    async show() {
+      const name = await rl.question('Enter the name of the cipher: ');
+      customCipher.showCipher(name);
+    },
+
+    async exit() {
+      if (customCipher.saved === true) {
+        rl.close();
+      } else {
+        const msg = 'Cipher you made is not saved. Use "save" to save it';
+        console.log(msg);
+        const exit = await rl.question('Are you sure you want to exit (y/n): ');
+        if (exit === 'y') rl.close();
+      }
+      return;
     }
   }
 
