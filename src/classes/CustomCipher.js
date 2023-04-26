@@ -82,7 +82,14 @@ class CustomCipher {
   }
 
   deleteCipher(name) {
-    if (name === this.name) this.cipher = {};
+    if (name === this.name) {
+      this.cipher = {};
+      if (Object.keys(this.cipher).length === 0) {
+        console.log(this.name + ' was deleted successfuly!');
+      }
+      return;
+    }
+    console.log('The cipher with this name doesnt exist');
   }
 
   showCipher(name) { // Remake to errors
