@@ -94,6 +94,8 @@ class CustomCipher {
   }
 
   showCipher(name) { // Remake to errors
+    const ommitedChars = [];
+    const omit = this.cipher.omit;
 
     if (name !== this.name) {
       console.log('The cipher with this name doesnt exist.');
@@ -105,7 +107,7 @@ class CustomCipher {
       return;
     }
 
-    if (Object.keys(this.cipher).length === 1 && this.omit.length === 0) {
+    if (Object.keys(this.cipher).length === 1 && omit.size === 0) {
       console.log('This cipher is empty.');
       return;
     }
@@ -117,9 +119,6 @@ class CustomCipher {
         console.log(`"${key}" ->  "${this.cipher[key]}";`);
       }
     }
-
-    const ommitedChars = [];
-    const omit = this.cipher.omit;
 
     for (const char of omit) {
       ommitedChars.push(`"${char}"`);
