@@ -24,6 +24,7 @@ const commands = {
     help() {
       const commandList = fs.readFileSync('./docs/commandList.txt', 'utf-8');
       console.log(commandList);
+      rl.prompt();
     },
 
     exit() {
@@ -39,6 +40,7 @@ const commands = {
         const step = await rl.question('How many hops do you need? ');
         caesar.encryptByCaesar(file, step);
       }
+      rl.prompt();
     },
 
     create() {
@@ -46,6 +48,7 @@ const commands = {
       console.log(`Welcome to cipher creating! 
 Here you can create, customise and save your ciphers!
 Type help to see all commands.`);
+      rl.prompt();
     }
   },
 
@@ -53,6 +56,7 @@ Type help to see all commands.`);
     async new() {
       const name = await rl.question('Enter the name of the cipher: ');
       customCipher = new CustomCipher(name);
+      rl.prompt();
       return customCipher;
     },
 
@@ -60,12 +64,14 @@ Type help to see all commands.`);
       const str = await rl.question('Enter the string you want to replace: ');
       const replacer = await rl.question('Enter the replacer: ');
       customCipher.addToCipher(str, replacer);
+      rl.prompt();
       return customCipher;
     },
 
     async omit() {
       const char = await rl.question('Enter string you need to omit: ');
       customCipher.omitChar(char);
+      rl.prompt();
       return customCipher;
     },
 
@@ -73,11 +79,13 @@ Type help to see all commands.`);
       const name = await rl.question('Enter the name of the cipher: ');
       const file = await rl.question('Enter the file name: ');
       customCipher.saveToJSON(name, file);
+      rl.prompt();
     },
 
     async show() {
       const name = await rl.question('Enter the name of the cipher: ');
       customCipher.showCipher(name);
+      rl.prompt();
     },
 
     async exit() {
@@ -86,7 +94,7 @@ Type help to see all commands.`);
       } else {
         const msg = 'Cipher you made is not saved. Use "save" to save it';
         console.log(msg);
-        const exit = await rl.question('Are you sure you want to exit (y/n): ');
+        const exit = await rl.question('Are you sure you want to exit?(y/n): ');
         if (exit === 'y') rl.close();
       }
       return;
@@ -101,5 +109,4 @@ rl.on('line', (line) => {
   const command = tier[line];
   if (command) command();
   else console.log('Unknown command. Type "help" to see available commands');
-  rl.prompt();
 }).on('close', () => process.exit(0));
