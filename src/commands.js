@@ -43,22 +43,17 @@ const commands = {
       rl.prompt();
     },
 
-    create() {
+    async create() {
       level = 'custom';
-      console.log(`Welcome to cipher creating! 
-Here you can create, customise and save your ciphers!
-Type help to see all commands.`);
+      console.log('Welcome to cipher creating!. Use "help" for guidance!\n');
+      const name = await rl.question('Enter the name of new cipher: ');
+      customCipher = new CustomCipher(name);
       rl.prompt();
+      return customCipher;
     }
   },
 
   custom: {
-    async new() {
-      const name = await rl.question('Enter the name of the cipher: ');
-      customCipher = new CustomCipher(name);
-      rl.prompt();
-      return customCipher;
-    },
 
     async add() {
       const str = await rl.question('Enter the string you want to replace: ');
