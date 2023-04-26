@@ -7,7 +7,6 @@ class CustomCipher {
   constructor(name) {
     this.name = name;
     this.cipher = { omit: new Set() };
-    this.omit = this.cipher.omit;
     this.saved = false;
   }
 
@@ -54,27 +53,29 @@ class CustomCipher {
   }
 
   omitChar(char) {
+    const omit = this.cipher.omit;
 
     if (char === '') {
       console.log('You cant omit an empty line!');
       return;
     }
 
-    this.omit.add(char);
+    omit.add(char);
     return this.cipher;
   }
 
   deomit(char) { // Change name
+    const omit = this.cipher.omit;
     char = char.trim();
 
-    if (this.omit.has(char)) {
-      this.omit.delete(char);
+    if (omit.has(char)) {
+      omit.delete(char);
 
-      if (!this.omit.has(char)) {
+      if (!omit.has(char)) {
         console.log(char + ' will not be omited since now');
       }
 
-      return this.omit;
+      return omit;
     }
 
     console.log('This character is not in omit list');
@@ -118,8 +119,9 @@ class CustomCipher {
     }
 
     const ommitedChars = [];
+    const omit = this.cipher.omit;
 
-    for (const char of this.omit) {
+    for (const char of omit) {
       ommitedChars.push(`"${char}"`);
     }
 
@@ -148,23 +150,6 @@ class CustomCipher {
       this.saved = true;
       console.log('Saved successfuly!');
     }
-  }
-
-  encryptByCustom(file, cipher) {
-
-    const data = fs.readFileSync(file, 'utf-8');
-    let encrypted = data;
-
-    if (data === '') {
-      console.log('File is empty. Try choosing another file');
-      return;
-    }
-
-    for (const key of Object.keys(cipher)) {
-      encrypted = encrypted.replaceAll(key, cipher[key]);
-    }
-
-    fs.writeFileSync('encrypted.txt', encrypted);
   }
 }
 
