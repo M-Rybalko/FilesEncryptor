@@ -131,7 +131,7 @@ class CustomCipher {
       return;
     }
 
-    const FOLDER = '../../Custom ciphers';
+    const FOLDER = '../Custom ciphers';
     const data = JSON.stringify(this.cipher, null, 2);
     const file = FOLDER + '/' + fileName + '.json';
 
