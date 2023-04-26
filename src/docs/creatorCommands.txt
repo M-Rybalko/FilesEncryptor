@@ -1,0 +1,8 @@
+List of all creator commands:
+
+help - get the list of all commands;
+add - add new correlation;
+omit - add a new symbol to omit;
+show - show the cipher ypu made;
+save - save your cipher into JSON format;
+exit - exit cipher creation environment;

@@ -22,8 +22,8 @@ const commands = {
   general: {
 
     help() {
-      const commandList = fs.readFileSync('./docs/commandList.txt', 'utf-8');
-      console.log(commandList);
+      const msg = fs.readFileSync('./docs/generalCommands.txt', 'utf-8');
+      console.log(msg);
       rl.prompt();
     },
 
@@ -54,6 +54,12 @@ const commands = {
   },
 
   custom: {
+
+    help() {
+      const msg = fs.readFileSync('./docs/creatorCommands.txt', 'utf-8');
+      console.log(msg);
+      rl.prompt();
+    },
 
     async add() {
       const str = await rl.question('Enter the string you want to replace: ');
