@@ -39,16 +39,16 @@ class CustomCipher {
     return this.cipher;
   }
 
-  deleteReplacer(string) {
-    string = string.trim();
-    if (string === 'omit') {
+  deleteReplacer(str) {
+    str = str.trim();
+    if (str === 'omit') {
       console.log('You cant delete that');
       return;
     }
 
-    if (Object.keys(this.cipher).includes(string)) {
-      delete this.cipher[string];
-      if (!this.cipher[string]) console.log('Deleted successfuly!');
+    if (Object.keys(this.cipher).includes(str)) {
+      delete this.cipher[str];
+      if (!this.cipher[str]) console.log('Deleted successfuly!');
       return this.cipher;
     }
   }
