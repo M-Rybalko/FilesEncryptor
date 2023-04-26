@@ -38,6 +38,8 @@ const encryptByCustom = (file, custom) => {
 const encryptByCaesar = (file, step = 1) => {
   const data = (fs.readFileSync(file, 'utf-8')).split('');
   const encrypted = [];
+  step = +step;
+  if (isNaN(step) || !isFinite(step)) step = 1;
 
   for (const char of data) {
     let encryptedChar = char.toLowerCase();
