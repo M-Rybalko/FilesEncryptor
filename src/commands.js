@@ -2,8 +2,7 @@
 
 const readline = require('node:readline/promises');
 const fs = require('node:fs');
-const morse = require('./ciphers/morse.js');
-const caesar = require('./ciphers/caesar.js');
+const encryptor = require('./tools/encryptor.js');
 const { CustomCipher } = require('./classes/CustomCipher.js');
 
 console.clear();
@@ -35,11 +34,25 @@ const commands = {
       const answer = await rl.question('Which file do you want to encrypt? ');
       const file = './' + answer;
       const cipher = await rl.question('Which cipher do you want to use? ');
-      if (cipher === 'morse') morse.encryptByMorse(file);
-      if (cipher === 'caesar') {
-        const step = await rl.question('How many hops do you need? ');
-        caesar.encryptByCaesar(file, step);
-      }
+
+      const variants = {
+        'morse': () => {
+          encryptor.encryptByMorse(file);
+          rl.prompt();
+        },
+        'caesar': async () => {
+          const step = await rl.question('How many hops do you need? ');
+          encryptor.encryptByCaesar(file, step);
+          rl.prompt();
+        },
+        'custom': () => {
+          if (customCipher) {
+            encryptor.encryptByCustom(file, customCipher);
+          }
+        }
+      };
+
+      if (variants[cipher]) variants[cipher]();
       rl.prompt();
     },
 
@@ -118,10 +131,14 @@ const commands = {
       if (customCipher.saved === true) {
         rl.close();
       } else {
-        const msg = 'Cipher you made is not saved. Use "save" to save it';
+        const msg = 'Before leaving creator remember to save your cipher!';
         console.log(msg);
         const exit = await rl.question('Are you sure you want to exit?(y/n): ');
-        if (exit === 'y') rl.close();
+        if (exit === 'y') {
+          level = 'general';
+          console.log('You are now on general level.');
+          rl.prompt();
+        }
       }
       return;
     }
