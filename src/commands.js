@@ -91,8 +91,7 @@ const commands = {
 
     async save() {
       const name = await rl.question('Enter the name of the cipher: ');
-      const file = await rl.question('Enter the file name: ');
-      customCipher.saveToJSON(name, file);
+      customCipher.saveToJSON(name);
       rl.prompt();
     },
 
