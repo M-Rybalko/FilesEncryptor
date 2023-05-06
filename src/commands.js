@@ -99,7 +99,7 @@ const commands = {
 
     async omit() {
       const char = await rl.question('Enter string you need to omit: ');
-      customCipher.omitChar(char);
+      customCipher.addOmission(char);
       rl.prompt();
       return customCipher;
     },
@@ -125,7 +125,7 @@ const commands = {
         },
         '-o': async () => {
           const char = await rl.question('Enter char you dont want to omit: ');
-          customCipher.deomit(char);
+          customCipher.deleteOmission(char);
         },
         '-c': async () => {
           const name = await rl.question('Enter the name of the cipher: ');
