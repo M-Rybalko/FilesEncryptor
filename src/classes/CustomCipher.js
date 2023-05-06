@@ -140,13 +140,11 @@ class CustomCipher {
       omitArray.push(char);
     }
 
-    const omit = { omit: omitArray };
-
     const cipherFile = CIPHER_FOLDER + '/cipher.json';
     fs.writeFileSync(cipherFile, cipher);
 
     const omitFile = CIPHER_FOLDER + '/omit.json';
-    fs.writeFileSync(omitFile, JSON.stringify(omit, null, 2));
+    fs.writeFileSync(omitFile, JSON.stringify(omitArray, null, 2));
 
     if (fs.existsSync(cipherFile) && fs.existsSync(omitFile)) {
       console.log('Saved successfuly!');
