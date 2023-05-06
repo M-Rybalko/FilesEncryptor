@@ -130,7 +130,7 @@ class CustomCipher {
 
     const GENERAL_FOLDER = '../Custom ciphers';
     if (!fs.existsSync(GENERAL_FOLDER)) fs.mkdirSync(GENERAL_FOLDER);
-    const CIPHER_FOLDER = '../Custom cipher/' + this.name;
+    const CIPHER_FOLDER = `../Custom ciphers/${this.name}`;
     if (!fs.existsSync(CIPHER_FOLDER)) fs.mkdirSync(CIPHER_FOLDER);
 
     const cipher = JSON.stringify(this.cipher, null, 2);
