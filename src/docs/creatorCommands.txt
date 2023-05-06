@@ -6,3 +6,6 @@ omit - add a new symbol to omit;
 show - show the cipher ypu made;
 save - save your cipher into JSON format;
 exit - exit cipher creation environment;
+delete -e - deletes selected correlation;
+       -o - deletes selected omission;
+       -c - deletes selected cipher;
