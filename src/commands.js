@@ -2,7 +2,7 @@
 
 const readline = require('node:readline/promises');
 const fs = require('node:fs');
-const encryptor = require('./tools/encryptor.js');
+const tools = require('./tools/functions.js');
 const { CustomCipher } = require('./classes/CustomCipher.js');
 
 console.clear();
@@ -30,6 +30,21 @@ const commands = {
       rl.close();
     },
 
+    async import() {
+      const name = await rl.question('Enter cipher name you want to export: ');
+      const data = tools.importCipher(name);
+
+      customCipher = new CustomCipher(name);
+      customCipher.cipher = data[0];
+      customCipher.omit = data[1];
+
+      level = 'custom';
+      console.log(name + ' has been imported successfully.');
+      console.log('Entering cipher creation workplace.');
+      rl.prompt();
+      return customCipher;
+    },
+
     async encrypt() {
       const answer = await rl.question('Which file do you want to encrypt? ');
       const file = './' + answer;
@@ -37,17 +52,17 @@ const commands = {
 
       const variants = {
         'morse': () => {
-          encryptor.encryptByMorse(file);
+          tools.encryptByMorse(file);
           rl.prompt();
         },
         'caesar': async () => {
           const step = await rl.question('How many hops do you need? ');
-          encryptor.encryptByCaesar(file, step);
+          tools.encryptByCaesar(file, step);
           rl.prompt();
         },
         'custom': () => {
           if (customCipher) {
-            encryptor.encryptByCustom(file, customCipher);
+            tools.encryptByCustom(file, customCipher);
           }
         }
       };
