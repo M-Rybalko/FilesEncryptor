@@ -52,7 +52,7 @@ class CustomCipher {
     }
   }
 
-  omitChar(char) {
+  addOmission(char) {
 
     if (char === '') {
       console.log('You cant omit an empty line!');
@@ -60,10 +60,15 @@ class CustomCipher {
     }
 
     this.omit.add(char);
+
+    if (this.omit.has(char)) {
+      console.log(`"${char}" will be omitted since now`);
+    }
+
     return this.cipher;
   }
 
-  deomit(char) { // Change name
+  deleteOmission(char) {
     char = char.trim();
 
     if (this.omit.has(char)) {
