@@ -12,25 +12,10 @@ class CustomCipher {
 
   addToCipher(str, replacer) {
 
-    if (str === '') {
-      console.log(
-        'This string cant be empty. You risk to lose data that way.'
+    if (str === '' || replacer === '') {
+      throw new Error(
+        'Both fields should not be empty.'
       );
-      return;
-    }
-
-    if (str === 'omit') {
-      console.log(
-        'You cant cipher that string. Unspeakable things could happen'
-      );
-      return;
-    }
-
-    if (replacer === '') {
-      console.log(
-        'Replacer cant be empty. You risk to lose data that way.'
-      );
-      return;
     }
 
     this.cipher[str] = replacer;
@@ -41,8 +26,7 @@ class CustomCipher {
   deleteReplacer(str) {
     str = str.trim();
     if (str === 'omit') {
-      console.log('You cant delete that');
-      return;
+      throw new Error('You cant delete that');
     }
 
     if (Object.keys(this.cipher).includes(str)) {
@@ -55,8 +39,7 @@ class CustomCipher {
   addOmission(char) {
 
     if (char === '') {
-      console.log('You cant omit an empty line!');
-      return;
+      throw new Error('You cant omit an empty line!');
     }
 
     this.omit.add(char);
@@ -81,8 +64,7 @@ class CustomCipher {
       return this.omit;
     }
 
-    console.log('This character is not in omit list');
-    return;
+    throw new Error('This character is not in omit list');
   }
 
   deleteCipher(name) {
@@ -95,20 +77,18 @@ class CustomCipher {
       }
       return;
     }
-    console.log('The cipher with this name doesnt exist');
+    throw new Error('The cipher with this name doesnt exist');
   }
 
-  showCipher(name) { // Remake to errors
+  showCipher(name) {
     const ommitedChars = [];
 
     if (name !== this.name) {
-      console.log('The cipher with this name doesnt exist.');
-      return;
+      throw new Error('The cipher with this name doesnt exist.');
     }
 
     if (Object.keys(this.cipher).length === 0 && this.omit.size === 0) {
-      console.log('This cipher is empty.');
-      return;
+      throw new Error('This cipher is empty.');
     }
 
     console.log('Heres the list of all strings and their replacers:');
@@ -129,8 +109,7 @@ class CustomCipher {
   saveToJSON(cipherName) {
 
     if (cipherName !== this.name) {
-      console.log('The cipher with this name doesnt exist.');
-      return;
+      throw new Error('The cipher with this name doesnt exist.');
     }
 
     const GENERAL_FOLDER = '../Custom ciphers';
