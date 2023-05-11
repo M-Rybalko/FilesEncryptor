@@ -8,11 +8,11 @@ const encryptByCustom = (file, custom) => {
   const data = fs.readFileSync(file, 'utf-8');
 
   if (data === '') {
-    return new Error('File is empty.');
+    throw new Error('File is empty.');
   }
 
   if (!Object.keys(custom).includes('cipher')) {
-    return new Error('This cipher is unsuitable for encrypting.');
+    throw new Error('This cipher is unsuitable for encrypting.');
   }
 
   let encrypted = data;
@@ -85,7 +85,7 @@ const importCipher = (name) => {
 
   if (!fs.existsSync(FOLDER + '/cipher.json') ||
   !fs.existsSync(FOLDER + '/omit.json')) {
-    return new Error('The cipher is invalid or doesnt exist');
+    throw new Error('The cipher is invalid or doesnt exist');
   }
 
   const parsed = [];
