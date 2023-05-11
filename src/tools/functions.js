@@ -102,8 +102,6 @@ const importCipher = (name) => {
   return parsed;
 };
 
-importCipher('test');
-
 module.exports = {
   encryptByCustom,
   encryptByMorse,

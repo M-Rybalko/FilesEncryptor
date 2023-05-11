@@ -13,9 +13,7 @@ class CustomCipher {
   addToCipher(str, replacer) {
 
     if (str === '' || replacer === '') {
-      throw new Error(
-        'Both fields should not be empty.'
-      );
+      throw new Error('Both fields should not be empty.');
     }
 
     this.cipher[str] = replacer;

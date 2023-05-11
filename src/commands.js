@@ -161,11 +161,18 @@ const commands = {
 };
 
 rl.on('line', (line) => {
-  const [ name, sw ] = line.toLowerCase().trim().split(' ');
-  const tier = commands[level];
-  const command = tier[name];
-  if (command) {
-    if (sw) command(sw);
-    else command();
-  } else console.log('Unknown command. Type "help" to see available commands');
+  try {
+    const [ name, sw ] = line.toLowerCase().trim().split(' ');
+    const tier = commands[level];
+    const command = tier[name];
+    if (command) {
+      if (sw) command(sw);
+      else command();
+    } else {
+      throw new Error('Unknown command. Type "help" to see available commands');
+    }
+  } catch (err) {
+    console.error(err.message);
+    rl.prompt();
+  }
 }).on('close', () => process.exit(0));
