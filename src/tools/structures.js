@@ -41,4 +41,11 @@ const MORSE_ALPHABET =
   '0': '─ ─ ─ ─ ─',
 };
 
-module.exports = MORSE_ALPHABET;
+const COLORS = {
+  'default': '\x1b[0m',
+  'red': '\x1b[31m',
+  'green': '\x1b[32m',
+  'yellow': '\x1b[33m',
+};
+
+module.exports = { MORSE_ALPHABET, COLORS };
