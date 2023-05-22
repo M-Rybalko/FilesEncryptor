@@ -4,6 +4,7 @@ const readline = require('node:readline/promises');
 const fs = require('node:fs');
 const tools = require('./tools/functions.js');
 const { CustomCipher } = require('./classes/CustomCipher.js');
+const { COLORS } = require('./tools/structures.js');
 
 console.clear();
 const rl = readline.createInterface({
@@ -138,7 +139,7 @@ const commands = {
         rl.prompt();
         return;
       }
-      console.log('This switch doesnt exist. Use "help" for guidance');
+      throw new Error('This switch doesnt exist. Use "help" for guidance');
     },
 
     async exit() {
@@ -146,11 +147,13 @@ const commands = {
         rl.close();
       } else {
         const msg = 'Before leaving creator remember to save your cipher!';
-        console.log(msg);
-        const exit = await rl.question('Are you sure you want to exit?(y/n): ');
+        console.log(COLORS.yellow + msg + COLORS.default);
+        const exit = await rl.question(
+          COLORS.yellow + 'Confirm your exit (y/n): ' + COLORS.default);
         if (exit === 'y') {
           level = 'general';
-          console.log('You are now on general level.');
+          console.log(
+            COLORS.green + 'You are now on general level.' + COLORS.default);
           rl.prompt();
         }
       }
@@ -160,19 +163,19 @@ const commands = {
 
 };
 
-rl.on('line', (line) => {
+rl.on('line', async (line) => {
   try {
     const [ name, sw ] = line.toLowerCase().trim().split(' ');
     const tier = commands[level];
     const command = tier[name];
     if (command) {
-      if (sw) command(sw);
-      else command();
+      if (sw) await command(sw);
+      else await command();
     } else {
       throw new Error('Unknown command. Type "help" to see available commands');
     }
   } catch (err) {
-    console.error(err.message);
+    console.error(COLORS.red + err.message + COLORS.default);
     rl.prompt();
   }
 }).on('close', () => process.exit(0));
