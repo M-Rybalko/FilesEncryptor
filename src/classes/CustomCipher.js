@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('node:fs');
+const { log } = require('../tools/functions.js');
 
 class CustomCipher {
 
@@ -17,7 +18,7 @@ class CustomCipher {
     }
 
     this.cipher[str] = replacer;
-    if (this.cipher[str]) console.log('Added successfully!');
+    if (this.cipher[str]) log('green', 'Added successfully!');
     return this.cipher;
   }
 
@@ -29,7 +30,7 @@ class CustomCipher {
 
     if (Object.keys(this.cipher).includes(str)) {
       delete this.cipher[str];
-      if (!this.cipher[str]) console.log('Deleted successfuly!');
+      if (!this.cipher[str]) log('green', 'Deleted successfuly!');
       return this.cipher;
     }
   }
@@ -43,7 +44,7 @@ class CustomCipher {
     this.omit.add(char);
 
     if (this.omit.has(char)) {
-      console.log(`"${char}" will be omitted since now`);
+      log('green', `"${char}" will be omitted.`);
     }
 
     return this.cipher;
@@ -56,7 +57,7 @@ class CustomCipher {
       this.omit.delete(char);
 
       if (!this.omit.has(char)) {
-        console.log(char + ' will not be omited since now');
+        log('green', `"${char}" will not be omitted now.`);
       }
 
       return this.omit;
@@ -71,7 +72,7 @@ class CustomCipher {
       delete this.omit;
       delete this.name;
       if (!this.cipher && !this.omit && !this.name) {
-        console.log('Cipher was deleted successfuly!');
+        log('green', 'Cipher was deleted successfuly!');
       }
       return;
     }
@@ -129,7 +130,7 @@ class CustomCipher {
     fs.writeFileSync(omitFile, JSON.stringify(omitArray, null, 2));
 
     if (fs.existsSync(cipherFile) && fs.existsSync(omitFile)) {
-      console.log('Saved successfuly!');
+      log('green', 'Saved successfuly!');
     }
   }
 }
