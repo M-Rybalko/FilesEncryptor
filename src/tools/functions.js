@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('node:fs');
-const MORSE_ALPHABET = require('./structures.js');
+const { MORSE_ALPHABET, COLORS } = require('./structures.js');
 
 const encryptByCustom = (file, custom) => {
 
@@ -102,9 +102,14 @@ const importCipher = (name) => {
   return parsed;
 };
 
+const log = (col, msg) => {
+  console.log(COLORS[col] + msg + COLORS.default);
+};
+
 module.exports = {
   encryptByCustom,
   encryptByMorse,
   encryptByCaesar,
-  importCipher
+  importCipher,
+  log,
 };
