@@ -3,33 +3,46 @@
 const fs = require('node:fs');
 const { MORSE_ALPHABET, COLORS } = require('./structures.js');
 
-const encryptByCustom = (file, custom) => {
+const encryptByCustom = (file, cipher) => {
 
-  const data = fs.readFileSync(file, 'utf-8');
+  let data = fs.readFileSync(file, 'utf-8');
+  const encrypted = [];
 
   if (data === '') {
     throw new Error('File is empty.');
   }
 
-  if (!Object.keys(custom).includes('cipher')) {
+  if (!Object.keys(cipher).includes('cipher') ||
+  !Object.keys(cipher).includes('omit')) {
     throw new Error('This cipher is unsuitable for encrypting.');
   }
 
-  let encrypted = data;
-  const cipher = custom['cipher'];
+  const replacers = cipher['cipher'];
   const omit = cipher['omit'];
 
+  const sorted = [...Object.keys(replacers)].sort(
+    (a, b) => b.length - a.length);
+
   for (const char of omit) {
-    encrypted = encrypted.replaceAll(char, '');
+    data = data.replaceAll(char, '');
   }
+  data = data.split('');
 
-  for (const key of Object.keys(cipher)) {
-    if (key !== 'omit') {
-      encrypted = encrypted.replaceAll(key, cipher[key]);
+  for (let i = 0; i < data.length; i++) {
+    let replaced = false;
+    for (const key of sorted) {
+      if (data.slice(i, i + key.length).join('') === key &&
+      replaced === false) {
+        encrypted.push(replacers[key]);
+        i += key.length - 1;
+        replaced = true;
+      }
     }
+
+    if (replaced === false) encrypted.push(data[i]);
   }
 
-  fs.writeFileSync('encrypted.txt', encrypted);
+  fs.writeFileSync('encrypted.txt', encrypted.join(''));
 };
 
 
