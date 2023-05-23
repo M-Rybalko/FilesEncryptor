@@ -143,19 +143,15 @@ const commands = {
     },
 
     async exit() {
-      if (customCipher.saved === true) {
-        rl.close();
-      } else {
-        const msg = 'Before leaving creator remember to save your cipher!';
-        console.log(COLORS.yellow + msg + COLORS.default);
-        const exit = await rl.question(
-          COLORS.yellow + 'Confirm your exit (y/n): ' + COLORS.default);
-        if (exit === 'y') {
-          level = 'general';
-          console.log(
-            COLORS.green + 'You are now on general level.' + COLORS.default);
-          rl.prompt();
-        }
+      const msg = 'Before leaving creator remember to save your cipher!';
+      console.log(COLORS.yellow + msg + COLORS.default);
+      const exit = await rl.question(
+        COLORS.yellow + 'Confirm your exit (y/n): ' + COLORS.default);
+      if (exit === 'y') {
+        level = 'general';
+        console.log(
+          COLORS.green + 'You are now on general level.' + COLORS.default);
+        rl.prompt();
       }
       return;
     }
