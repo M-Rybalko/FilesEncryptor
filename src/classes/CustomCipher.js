@@ -11,7 +11,7 @@ class CustomCipher {
     this.omit = new Set();
   }
 
-  addToCipher(str, replacer) {
+  addReplacer(str, replacer) {
 
     if (str === '' || replacer === '') {
       throw new Error('Both fields should not be empty.');
@@ -24,9 +24,6 @@ class CustomCipher {
 
   deleteReplacer(str) {
     str = str.trim();
-    if (str === 'omit') {
-      throw new Error('You cant delete that');
-    }
 
     if (Object.keys(this.cipher).includes(str)) {
       delete this.cipher[str];
