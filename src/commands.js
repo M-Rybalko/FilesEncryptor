@@ -93,7 +93,7 @@ const commands = {
     async add() {
       const str = await rl.question('Enter the string you want to replace: ');
       const replacer = await rl.question('Enter the replacer: ');
-      customCipher.addToCipher(str, replacer);
+      customCipher.addReplacer(str, replacer);
       rl.prompt();
       return customCipher;
     },
