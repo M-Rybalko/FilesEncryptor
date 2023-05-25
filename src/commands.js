@@ -48,22 +48,24 @@ const commands = {
 
     async encrypt() {
       const answer = await rl.question('Which file do you want to encrypt? ');
-      const file = './' + answer;
+      const file = '../Texts/' + answer;
       const cipher = await rl.question('Which cipher do you want to use? ');
 
       const variants = {
         'morse': () => {
-          tools.encryptByMorse(file);
+          tools.encryptByMorse(file, answer);
           rl.prompt();
         },
         'caesar': async () => {
           const step = await rl.question('How many hops do you need? ');
-          tools.encryptByCaesar(file, step);
+          tools.encryptByCaesar(file, step, answer);
           rl.prompt();
         },
         'custom': () => {
           if (customCipher) {
-            tools.encryptByCustom(file, customCipher);
+            tools.encryptByCustom(file, customCipher, answer);
+          } else {
+            throw new Error('Cipher isnt created yet');
           }
         }
       };
@@ -94,6 +96,7 @@ const commands = {
       const str = await rl.question('Enter the string you want to replace: ');
       const replacer = await rl.question('Enter the replacer: ');
       customCipher.addReplacer(str, replacer);
+      if (customCipher.cipher[str]) tools.log('green', 'Added successfully!');
       rl.prompt();
       return customCipher;
     },
@@ -101,6 +104,9 @@ const commands = {
     async omit() {
       const char = await rl.question('Enter string you need to omit: ');
       customCipher.addOmission(char);
+      if (customCipher.omit.has(char)) {
+        tools.log('green', `"${char}" will be omitted.`);
+      }
       rl.prompt();
       return customCipher;
     },
@@ -117,29 +123,46 @@ const commands = {
       rl.prompt();
     },
 
-    delete(key) {
+    async delete(key) {
 
       const switches = {
         '-e': async () => {
           const str = await rl.question('Enter element you want to delete: ');
           customCipher.deleteReplacer(str);
+          if (!customCipher.cipher[str]) {
+            tools.log('green', 'Deleted successfuly!');
+          }
         },
         '-o': async () => {
           const char = await rl.question('Enter char you dont want to omit: ');
           customCipher.deleteOmission(char);
+          if (!customCipher.omit.has(char)) {
+            tools.log('green', `"${char}" will not be omitted now.`);
+          }
         },
         '-c': async () => {
           const name = await rl.question('Enter the name of the cipher: ');
           customCipher.deleteCipher(name);
+
+          if (!customCipher.cipher &&
+          !customCipher.omit && !customCipher.name) {
+            tools.log('green', 'Cipher was deleted successfuly!');
+          }
         },
       };
 
       if (Object.keys(switches).includes(key)) {
-        switches[key]();
-        rl.prompt();
-        return;
+        try {
+          await switches[key]();
+          rl.prompt();
+          return;
+        } catch (err) {
+          console.error(COLORS.red + err.message + COLORS.default);
+          rl.prompt();
+        }
+      } else {
+        throw new Error('This switch doesnt exist. Use "help" for guidance');
       }
-      throw new Error('This switch doesnt exist. Use "help" for guidance');
     },
 
     async exit() {
