@@ -3,13 +3,17 @@
 const fs = require('node:fs');
 const { MORSE_ALPHABET, COLORS } = require('./structures.js');
 
-const encryptByCustom = (file, cipher) => {
+const encryptByCustom = (file, cipher, name) => {
 
   let data = fs.readFileSync(file, 'utf-8');
   const encrypted = [];
 
   if (data === '') {
     throw new Error('File is empty.');
+  }
+
+  if (Object.keys(cipher['cipher']).length === 0 && cipher['omit'].size === 0) {
+    throw new Error('This cipher is empty.');
   }
 
   if (!Object.keys(cipher).includes('cipher') ||
@@ -42,15 +46,19 @@ const encryptByCustom = (file, cipher) => {
     if (replaced === false) encrypted.push(data[i]);
   }
 
-  fs.writeFileSync('encrypted.txt', encrypted.join(''));
+  fs.writeFileSync(`../Encrypted/${name}EncCu.txt`, encrypted.join(''));
 };
 
 
-const encryptByCaesar = (file, step = 1) => {
+const encryptByCaesar = (file, step = 1, name) => {
   const data = (fs.readFileSync(file, 'utf-8')).split('');
   const encrypted = [];
   step = +step;
   if (isNaN(step) || !isFinite(step)) step = 1;
+
+  if (data === '') {
+    throw new Error('File is empty.');
+  }
 
   for (const char of data) {
     let encryptedChar = char.toLowerCase();
@@ -68,13 +76,17 @@ const encryptByCaesar = (file, step = 1) => {
     encrypted.push(encryptedChar);
   }
 
-  fs.writeFileSync('encrypted.txt', encrypted.join(''));
+  fs.writeFileSync(`../Encrypted/${name}Caesar.txt`, encrypted.join(''));
 };
 
 
-const encryptByMorse = (file) => {
+const encryptByMorse = (file, name) => {
   const data = (fs.readFileSync(file, 'utf-8')).toUpperCase().split('');
   const encrypted = [];
+
+  if (data === '') {
+    throw new Error('File is empty.');
+  }
 
   for (let i = 0; i < data.length; i++) {
     let char = data[i];
@@ -89,7 +101,7 @@ const encryptByMorse = (file) => {
     if (char === ' ' && keys.includes(nextChar)) char = '       ';
 
     encrypted.push(char);
-    fs.writeFileSync('encrypted.txt', encrypted.join(''));
+    fs.writeFileSync(`../Encrypted/${name}Morse.txt`, encrypted.join(''));
   }
 };
 
