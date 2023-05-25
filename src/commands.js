@@ -13,6 +13,9 @@ const rl = readline.createInterface({
   prompt: '> ',
 });
 
+if (!fs.existsSync('../Encrypted')) fs.mkdirSync('../Encrypted');
+if (!fs.existsSync('../Texts')) fs.mkdirSync('../Texts');
+
 rl.prompt();
 let level = 'general';
 let customCipher;
