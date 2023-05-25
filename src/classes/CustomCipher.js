@@ -18,7 +18,6 @@ class CustomCipher {
     }
 
     this.cipher[str] = replacer;
-    if (this.cipher[str]) log('green', 'Added successfully!');
     return this.cipher;
   }
 
@@ -27,24 +26,20 @@ class CustomCipher {
 
     if (Object.keys(this.cipher).includes(str)) {
       delete this.cipher[str];
-      if (!this.cipher[str]) log('green', 'Deleted successfuly!');
       return this.cipher;
     }
+
+    throw new Error('This element is not in cipher');
   }
 
   addOmission(char) {
 
-    if (char === '') {
-      throw new Error('You cant omit an empty line!');
+    if (char !== '') {
+      this.omit.add(char);
+      return this.cipher;
     }
 
-    this.omit.add(char);
-
-    if (this.omit.has(char)) {
-      log('green', `"${char}" will be omitted.`);
-    }
-
-    return this.cipher;
+    throw new Error('You cant omit an empty line!');
   }
 
   deleteOmission(char) {
@@ -52,11 +47,6 @@ class CustomCipher {
 
     if (this.omit.has(char)) {
       this.omit.delete(char);
-
-      if (!this.omit.has(char)) {
-        log('green', `"${char}" will not be omitted now.`);
-      }
-
       return this.omit;
     }
 
@@ -68,9 +58,6 @@ class CustomCipher {
       delete this.cipher;
       delete this.omit;
       delete this.name;
-      if (!this.cipher && !this.omit && !this.name) {
-        log('green', 'Cipher was deleted successfuly!');
-      }
       return;
     }
     throw new Error('The cipher with this name doesnt exist');
